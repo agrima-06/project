@@ -79,8 +79,9 @@ Route::post('/ajaxSubtopic', 'PracticeQuestionController@ajaxSubtopic')->name('a
 //slug is for SEO only
 Route::get('/question/{topic_id}/{slug}', 'PracticeQuestionController@sortQuestion')->name('sort.question');
 
-
 Route::resource('class', 'ClassController');
+Route::get('school-class-profile/{sId}/{cId}/{secId}', 'ClassController@schoolClassProfile')->name('school.class.profile'); 
+
 
 Route::resource('schoolstaff', 'SchoolstaffController');
 
@@ -96,10 +97,6 @@ Route::post('/school/section/admin', 'AdminController@ajaxSection')->name('ajax.
 Route::post('/school/subject/admin', 'AdminController@ajaxSubject')->name('ajax.admin.subject');
 Route::post('/admin/approvals/{id}', 'AdminController@approvals')->name('admin.approval');
 
-// Route::get('/studentEdit', function () {
-// 	return view('edit');()
-// })->name('student.edit');
-
  
 #TEST ROUTE DELETE THIS 
 
@@ -110,8 +107,4 @@ Route::post('/admin/approvals/{id}', 'AdminController@approvals')->name('admin.a
 
 Route::resource('test', 'TestController');
 
-
-
-//schoolstaff-teacher
-// Route::get('/teacher-schoolstaff-destroy/{teacher}', 'HomeController@destroyTeacher')->name('home.destroyTeacher');
 Route::get('/teacher-schoolstaff-update/{teacher}', 'HomeController@updateTeacher')->name('home.updateTeacher');

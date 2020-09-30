@@ -14,7 +14,7 @@ class SchoolTeacherRelation extends Model
     {
         return $this->belongsTo('App\Teacher');
     }
-    public function sclass()
+    public function sclass() 
     {
         return $this->belongsTo('App\Sclass');
     }

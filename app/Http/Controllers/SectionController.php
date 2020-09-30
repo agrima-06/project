@@ -15,9 +15,9 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::all();
-        //dd();
-        return view('admin.addSection')->with('sections', $sections);
+            $sections = Section::all();
+            //dd();
+            return view('admin.addSection')->with('sections', $sections);       
 
     }
 

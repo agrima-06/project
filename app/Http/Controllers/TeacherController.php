@@ -20,13 +20,16 @@ class TeacherController extends Controller
      */
     public function index()
     {
-
-        //$teacher = auth()->user()->teacher;
-        $teachers = Teacher::all();
-        //dd($teachers);
-
-        return view('admin.teacherView')->with('teachers', $teachers);
-        //dd('teacher');
+        if (auth()->user()->role == 'admin') {
+            $teachers = Teacher::all();
+            return view('admin.teacherView')->with('teachers', $teachers);
+        }
+        
+        if (auth()->user()->role == 'schoolstaff') {
+            $teachers = Teacher::all();
+            return view('schoolstaff.teacher')->with('teachers', $teachers);
+        }
+        
     }
 
     /**

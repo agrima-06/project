@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sclass;
 use App\Section; 
+use App\Student; 
+
+use App\SchoolTeacherRelation;
 use DB;
 
 class ClassController extends Controller
@@ -16,9 +19,25 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $classes = Sclass::all();
-        //$sections = Section::all();
-        return view('admin.addClass')->with('classes', $classes);
+        if (auth()->user()->role == 'admin') {
+            $classes = Sclass::all();
+            //$sections = Section::all();
+            return view('admin.addClass')->with('classes', $classes);
+        }
+        //route list kholo
+        if (auth()->user()->role == 'schoolstaff') {
+           $school_id = auth()->user()->schoolstaff->school->id;
+
+           $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
+
+           // $relations = SchoolTeacherRelation::select('sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get('id', 'sclass_id', 'section_id');
+
+        // $relations = SchoolTeacherRelation::distinct('sclass_id', 'section_id')->get();
+        // dd($relations);
+
+
+           return view('class.schoolClassesList')->with('relations', $relations);
+        }
     }
 
     /**
@@ -61,9 +80,10 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Sclass $class)
     {
-        //
+      return view('schoolstaff.classView')->with('class', $class);
+    
     }
 
     /**
@@ -74,7 +94,7 @@ class ClassController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd('hehe');
     }
 
     /**
@@ -101,5 +121,17 @@ class ClassController extends Controller
     {
         $class->delete();
         return redirect(route('class.index'));
+    }
+
+    public function schoolClassProfile($sId, $cId, $secId)
+    {
+      $school_id = $sId; 
+      $sclass_id = $cId;
+      $section_id = $secId;
+      $relations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();
+      $students = Student::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();
+
+      return view('class.schoolClassProfile')->with('relations', $relations)->with('students', $students);
+
     }
 }
