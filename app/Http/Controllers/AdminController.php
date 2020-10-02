@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SchoolTeacherRelation;
 use App\Teacher;
 use App\Student;
+use Redirect;
 
 
 class AdminController extends Controller
@@ -215,9 +216,55 @@ class AdminController extends Controller
             ]);  
         }
 
-        return redirect(route('home'));
+        if(isset($request->studentDeleteClass)){
+            $student = Student::find($id);
+            $student->update([
+                'sclass_id'=>null,
+                'section_id'=>null,
+                'approved' => 0,
+            ]);  
+        }
 
+        if(isset($request->studentDeleteSchool)){
+            $student = Student::find($id);
+            $student->update([
+                'school_id'=>null,
+                'sclass_id'=>null,
+                'section_id'=>null,
+                'approved' => 0,
+            ]);
+        }
+
+        return redirect()->back(); 
+        //return redirect(route('home'));
      }
+
+    public function assignStudentClass(Request $request)
+    {
+        //This function is for AJAX for taking Subject as per the Class
+       // $school_id =  $request->get('school_id');
+        $sclass_id = $request->get('sclass_id');    
+        $section_id = $request->get('section_id');           
+        $student_id = $request->get('student_id');
+  //      $reassign_role = $request->get('reassign_role');
+      //  $delete_role = $request->get('delete_role');     
+        $student = Student::find($student_id);
+
+        if(($student->sclass_id == $sclass_id) && ($student->section_id == $section_id)){
+            $sameClass =["class"=>'Class: '.$student->sclass->class, "section"=>$student->section->section];
+            return response()->json(["sameClass" => $sameClass]);
+        }
+        else{
+            $student->update([
+                'sclass_id'=>$sclass_id,
+                'section_id'=>$section_id,
+                'approved'=>1,
+            ]); 
+
+            $newClass =["class"=>'Class: '.$student->sclass->class, "section"=>$student->section->section] ;
+            return response()->json(["data" => $newClass]);
+        }     
+    }
 
 
 }

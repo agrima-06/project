@@ -103,10 +103,7 @@ Home Admin
                               <br>
 
                             </div>
-                            <div>
-                              <a href="#" class="btn btn-success btn-circle btn-sm" data-toggle="modal" onclick="assignTeacherId({{$teacher->id}}, '{{$teacher->user->name}}')" data-target="#TeacherRoleModal">
-                                <i class="fas fa-edit"></i>
-                              </a>
+                            <div>                         
                               <form action="{{route('admin.approval',$teacher->id)}}" method="post" class="mt-2">
                                 @csrf
                                 <input type="hidden" name="teacher" value="1">
@@ -149,6 +146,9 @@ Home Admin
                               <h5 class="card-title">{{$teacher->user->name}} has requested for teaching in  Class{{$relation->sclass->class}}{{$relation->section->section}} -> {{$relation->subject->name}}.@if($relation->classteacher == 1)  She proposed to be 'Class Teacher' of the Class{{$relation->sclass->class}}{{$relation->section->section}} also. btn-sm @endif</h5>
                             </div>
                             <div>
+                              <a href="#" class="btn btn-success btn-circle btn-sm" data-toggle="modal" onclick="assignTeacherId({{$teacher->id}}, '{{$teacher->user->name}}')" data-target="#TeacherRoleModal">
+                                <i class="fas fa-edit"></i>
+                              </a>
                               <form action="{{route('admin.approval',$relation->id)}}" method="post" class="mt-2">
                                 @csrf
                                 <input type="hidden" name="teacherRole" value="1">

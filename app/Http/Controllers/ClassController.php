@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Sclass;
 use App\Section; 
 use App\Student; 
-
+use App\School; 
 use App\SchoolTeacherRelation;
 use DB;
 
@@ -128,10 +128,16 @@ class ClassController extends Controller
       $school_id = $sId; 
       $sclass_id = $cId;
       $section_id = $secId;
+      $school = School::find($sId);
+      $sclass = Sclass::find($cId);
+      $section = Section::find($secId);
+
       $relations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();
-      $students = Student::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();
+      $students = Student::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id],  ['approved', '=', 1]])->get();
 
-      return view('class.schoolClassProfile')->with('relations', $relations)->with('students', $students);
+        //classSection Variable is required for Modal in student class. 
+      $classSections = SchoolTeacherRelation::select('section_id')->where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id]])->get();
 
+      return view('class.schoolClassProfile')->with('relations', $relations)->with('students', $students)->with('school', $school)->with('sclass', $sclass)->with('section', $section)->with('classSections',  $classSections);
     }
 }
