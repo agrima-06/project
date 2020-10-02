@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>SB Admin 2 - Dashboard</title> 
 
   <!-- Custom fonts for this template-->
   <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -33,14 +33,12 @@
 
     <!-- Sidebar -->
     <div class="col-2 p-0">
-    <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion position-fixed" id="accordionSidebar">
+    <ul class="navbar-nav bg-success sidebar sidebar-dark accordion position-fixed" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+      <a class="sidebar-brand d-flex mt-2 ml-2 mb-2 align-items-start p-0 justify-content-start" href="{{route('home')}}">
+        <img class="rounded-circle" src="{{asset('storage/'.auth()->user()->img)}}" alt="" style="height: 100%;width: 30%">
+        <span class="mt-4 ml-2 d-none d-lg-inline text-light"><b>{{Auth::user()->name}}</b></span>
       </a>
 
       <!-- Divider -->

@@ -63,6 +63,7 @@ Class details
        Teachers
       </button>
       @foreach($relations as $relation)
+        @if(isset($relation->teacher))
           <div class="card">
             <div class="row no-gutters">
               <div class="col-md-2">
@@ -97,6 +98,7 @@ Class details
               </div>
             </div>
           </div>
+        @endif
       @endforeach
     </div>
   </div>

@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 </head>
-<body>
+<body class="bg-info">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -74,7 +74,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 bg-info">
             @yield('content')
         </main>
     </div>

@@ -30,7 +30,7 @@ Home Admin
                         <div class="card-body">                          
                           <div class="d-flex justify-content-between">
                             <div>
-                              <h5 class="card-title">Requested class: {{$student->sclass->class}}{{$student->section->section}}</h5>
+                              <h5 class="card-title">Requested class: @if(isset($student->sclass->class)) {{$student->sclass->class}}@endif @if(isset($student->section->section)) {{$student->section->section}} @endif</h5>
                               <b> DOB-</b> {{$student->DOB}}<br>
                               <b> email-</b> {{$student->user->email}}<br>
                               <b> Contact No.-</b> {{$student->contactNo}}<br>
