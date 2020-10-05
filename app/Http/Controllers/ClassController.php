@@ -30,13 +30,14 @@ class ClassController extends Controller
 
            $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
 
-           // $relations = SchoolTeacherRelation::select('sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get('id', 'sclass_id', 'section_id');
-
-        // $relations = SchoolTeacherRelation::distinct('sclass_id', 'section_id')->get();
-        // dd($relations);
-
-
-           return view('class.schoolClassesList')->with('relations', $relations);
+           $sclass = Sclass::all();
+           $section = Section::all();
+        // // dd($relations);
+        //   $classTecher21 = SchoolTeacherRelation::select('sclass_id', 'section_id','classteacher')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
+        // $classTTT = Sclass::find(1);
+        // dd($classTTT->StudentCountClass(1, 3));
+        //  StudentCountClass($section_id, $school_id )
+           return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclass', $sclass)->with('section', $section);
         }
     }
 

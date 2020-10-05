@@ -266,5 +266,35 @@ class AdminController extends Controller
         }     
     }
 
+    public function deleteSchoolClass(Request $request)
+    {
+        $school_id = $request->get('school_id');
+        $sclass_id = $request->get('sclass_id');    
+        $section_id = $request->get('section_id');           
+        //dd($school_id.$sclass_id.$section_id); 
+        $SchoolTeacherRelations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get(); 
+
+        dd($SchoolTeacherRelations);
+
+    }
+
+    public function schoolClassTeacherlist(Request $request){
+
+        $school_id = $request->get('school_id');
+        $sclass_id = $request->get('sclass_id');    
+        $section_id = $request->get('section_id'); 
+
+        $SchoolTeacherRelations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id], ['approved', '=', 1]])->get(); 
+
+        $data = [];
+        foreach ($SchoolTeacherRelations as $relation) {
+            if (isset($relation->teacher)) {
+                $teacher = $relation->teacher->user->name;          
+            array_push($data, array("id"=>$relation->teacher_id, "teacher"=>$relation->teacher->user->name));
+            }
+        }
+        return response()->json(["data" => $data]);
+    }
+
 
 }

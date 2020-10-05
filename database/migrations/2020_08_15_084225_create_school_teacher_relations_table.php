@@ -20,7 +20,8 @@ class CreateSchoolTeacherRelationsTable extends Migration
             $table->integer('section_id')->nullable();
             $table->integer('subject_id')->nullable();
             $table->integer('teacher_id')->nullable();            
-            $table->boolean('classteacher')->default(0);
+            $table->boolean('classteacher')->default(null);
+            $table->unique(['school_id', 'sclass_id', 'section_id', 'classteacher']);
             $table->boolean('approved')->default(0);
 
             //This approval to be given by schoolstaff/ Staff or Admin, Request can be made by the school Teacher only.

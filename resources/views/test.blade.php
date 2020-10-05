@@ -8,7 +8,7 @@ Home
 @section('body')
 
 
-      <form action="{{route('ajax.student.class')}}" method="post">
+      <form action="{{route('school.class.teacherlist')}}" method="post">
         @csrf
         <input type="text" name="school_id" value='3'>
         <input type="text" name="sclass_id" value='1'>

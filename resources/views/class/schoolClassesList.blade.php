@@ -5,6 +5,14 @@
 Home Admin 
 @endsection
 
+@section('css')
+<style type="text/css">
+.centerText{
+   text-align: center;
+}
+</style>
+@endsection
+
 @section('content')
 
    <div class="content">
@@ -33,39 +41,9 @@ Home Admin
         </div>
         <div class="pull-right">
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#exampleModal">
+          <button type="button" class="btn btn-warning float-right mb-2" data-toggle="modal" data-target="#addNewClass">
             Add Class
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form method="post" enctype="multipart/form-data" action= "{{route('class.store')}}" id="storeClass">
-                    @csrf
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Add Class </label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="class">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Add section </label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="section">
-                </div>
-              </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-                  <a type="button" class="btn btn-primary" onclick="storeClass.submit();">Submit</a>
-                </div>
-              </div>
-            </div>
+          </button>        
           </div>
         </div>
       </div>
@@ -74,42 +52,199 @@ Home Admin
         <table class="table table-message">
           <tbody>
             <tr class="heading">
-              <td class="cell-title"><a href="{{route('ajax.teacher.role')}}">Class</a></td>
-              <td class="cell-title">section</td>
-              <td class="d-flex justify-content-end">Status</td>
+              <td class="cell-title centerText">Class</td>
+              <td class="cell-title centerText">section</td>
+              <td class="cell-title centerText">ClassTeacher</td>
+              <td class="cell-title centerText">Action</td>
+              <td class="cell-title centerText">No of Students</td>
+              <td class="cell-title centerText">Action</td>
             </tr>
           @foreach($relations as $relation)
-		            <tr class="task">
-		              <td class="cell-title"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">Class {{$relation->sclass->class}}</a></div></td>
-		              <td class="cell-title"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">{{$relation->section->section}}</a></div></td>
-		              <td class="cell-time align-right">
-		                <div class="d-flex flex-row bd-highlight  d-flex justify-content-end">
-		                   <div class="p-2 bd-highlight">
-		                    <form action="{{route('class.update',$relation->sclass_id)}}" method="post">
-  		                  @csrf
-  		                  @method('PUT')
-  		                  <button type="submit" class="btn btn-success btn-sm">Approve</button>
-  		                  </form>
-  		                  </div>
-  		                  <div class="p-2 bd-highlight">                
-  		                    <form action="{{route('class.destroy', $relation->sclass_id)}}" method="post">
-  		                  @csrf
-  		                  @method('DELETE')
-  		                  <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-  		                  </form>
-  		                 </div>
-		                </div>
+		          @if(isset($relation->sclass_id))
+                <tr class="task">
+		              <td class="cell-title centerText"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">Class {{$relation->sclass->class}}</a></div></td>
+		              <td class="cell-title centerText"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">{{$relation->section->section}}</a></div></td>
+                  <td class="cell-title centerText"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">@if(($relation->sclass->classTeacher($relation->section->id, $school_id)) !== null) {{$relation->sclass->classTeacher($relation->section->id, $school_id)->teacher->user->name}} @endif</a></div></td>
+                  <td class="cell-title centerText"><div>
+                    <form action="{{route('class.update',$relation->sclass_id)}}" method="post">
+                      @csrf
+                      @method('PUT')
+                      <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="assignClassSectionId({{$relation->sclass_id}},{{$relation->sclass->class}},{{$relation->section_id}},'{{$relation->section->section}}')" data-target="#changeClassTeacher">Change ClassTeacher</button>
+                    </form>
+                  </td>                  
+                  <td class="cell-title centerText"><div><a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}">{{$relation->sclass->StudentCountClass($relation->section->id, $school_id)}}</a></div></td>
+		              <td class="cell-title centerText"">
+                    <a href="{{route('school.class.profile',[$relation->school_id, $relation->sclass_id, $relation->section_id])}}" class="btn btn-success btn-sm">View</a>
+                    <button type="button" class="btn btn-danger btn-sm"  data-toggle="modal" onclick="assignClassSectionId({{$relation->sclass_id}},{{$relation->sclass->class}},{{$relation->section_id}},'{{$relation->section->section}}')" data-target="#classDelete">Delete</button>
 		              </td>
 		            </tr>
+              @endif
           @endforeach
           </tbody>
         </table>
 
       </div>
-      <div class="module-foot">
+    </div>  
+
+    <!-- Delete Class Modal-->
+    <div class="modal fade" id="classDelete" tabindex="-1" role="dialog" aria-labelledby="classDelete" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Class">Remove Class <span class="className"></span> from School?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+            <div class="modal-body">
+              Once deleted all associated students/teachers/subjects data will permanently be removed. 
+            </div>
+          <div class="modal-footer">          
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <form action="{{route('delete.school.class')}}" id="classDeleteSchool" method="post">
+              @csrf
+              <input type="hidden" name="school_id" value="{{$school_id}}">
+              <input type="hidden" name="sclass_id" value="">
+              <input type="hidden" name="section_id" value="">
+              <button type="submit" class="btn btn-danger">Delete Class</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-    
+
+    <!-- Change ClassTeacher Modal-->
+    <div class="modal fade" id="changeClassTeacher" tabindex="-1" role="dialog" aria-labelledby="changeClassTeacher" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Class">Select New Class Teacher</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form>
+                <div class="form-group row">
+                  <div class="col-sm-10 classTeacherClass">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-10 ">
+                    <select class="assignteacher" name="relation_id"  style="width: 75%">
+                      <option></option>                  
+                      <option value=""> Rahul </option>
+                    </select>
+                  </div>
+                </div>
+              </form> 
+          </div>
+          <div class="modal-footer">          
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <form action="{{route('delete.school.class')}}" id="classDeleteSchool11" method="post">
+              @csrf
+              <input type="hidden" name="school_id" value="{{$school_id}}">
+              <input type="hidden" name="sclass_id" value="">
+              <input type="hidden" name="section_id" value="">
+              <button type="submit" class="btn btn-danger">Delete Class</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!--Add New Class Modal -->
+    <div class="modal fade" id="addNewClass" tabindex="-1" aria-labelledby="addNewClass" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="as">Add Class</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <form method="post" enctype="multipart/form-data" action= "{{route('class.store')}}" id="storeClass">
+              @csrf
+          <div class="form-group">
+            <label for="exampleInputEmail1">Add Class </label>
+            <input type="text" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp" name="class">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Add section </label>
+            <input type="text" class="form-control" id="exampleInputEmail141" aria-describedby="emailHelp" name="section">
+          </div>
+          <div class="form-group">
+            
+          </div>
+        </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+            <button type="button" class="btn btn-primary" onclick="storeClass.submit();">Submit</button>
+          </div>
+        </div>
+      </div>
+
   </div><!--/.content-->
  						
+@endsection
+
+@section('script')
+<script type="text/javascript">
+
+function assignClassSectionId(classId, classname, sectionId, sectionname){
+  window.classId = classId;
+  window.classname = classname;
+  window.sectionId = sectionId;
+  window.sectionname = sectionname;
+  //console.log(studentname);
+  $(".className").html(window.classname+window.sectionname);
+  $('input[name="sclass_id"]').val(classId);
+  $('input[name="section_id"]').val(sectionId);
+  $(".classTeacherClass").html('Select New ClassTeacher of Class '+window.classname+window.sectionname);
+  getTeacher({{$school_id}}, classId, sectionId);
+}
+
+$(document).ready(function() {
+    $('.assignteacher').select2({
+    placeholder: "Select Teacher",
+    allowClear: true
+    });
+});
+
+///Here Starts AJAX FOR DATA 
+function getTeacher(school_id, class_id, section_id) {
+   console.log(school_id + class_id + section_id);
+    $.ajax({
+      url: "{{route('school.class.teacherlist')}}",
+      method: 'POST',
+      data:{
+        school_id: school_id,
+        sclass_id: class_id,
+        section_id: section_id,
+        _token: $('input[name=_token]').val()
+      },
+      beforeSend: function() {
+        $(".assignteacher").addClass("loader");
+      },
+      success: function(data){
+        sloop(data.data);
+        console.log(data.data);
+        $(".assignteacher").removeClass("loader");
+      }
+    });
+  }  
+
+  function sloop(data){
+      console.log(data[0]);
+      var options = '<option> </option>';
+      for(var i = 0; i < data.length; i++) {
+      var obj = data[i];
+      options = options + '<option value='+obj.id+'>'+obj.teacher+'</option>';        
+      }
+      $(".assignteacher").html(options);
+  }
+
+</script>
 @endsection

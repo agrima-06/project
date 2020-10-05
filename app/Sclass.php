@@ -35,4 +35,15 @@ class Sclass extends Model
     {
         return $this->hasMany('App\PracticeQuestion');
     }
+    public function classTeacher($section_id, $school_id )
+    {        
+        $classTecher = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $this->id], ['section_id', '=', $section_id], ['classteacher', '=', 1],['approved', '=', 1]])->first();
+        return $classTecher;
+    }
+    public function StudentCountClass($section_id, $school_id )
+    {        
+       $studentCount = Student::where([['school_id', '=', $school_id], ['sclass_id', '=', $this->id], ['section_id', '=', $section_id], ['approved', '=', 1]])->get();
+       return $studentCount->count();
+    }
+
 }

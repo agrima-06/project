@@ -97,6 +97,8 @@ Route::post('/school/section/admin', 'AdminController@ajaxSection')->name('ajax.
 Route::post('/school/subject/admin', 'AdminController@ajaxSubject')->name('ajax.admin.subject');
 Route::post('/admin/approvals/{id}', 'AdminController@approvals')->name('admin.approval');
 Route::post('/studentclass/admin', 'AdminController@assignStudentClass')->name('ajax.student.class');
+Route::post('/school/class/delete', 'AdminController@deleteSchoolClass')->name('delete.school.class');
+Route::post('/school/class/teacherlist', 'AdminController@schoolClassTeacherlist')->name('school.class.teacherlist');
 
  
 #TEST ROUTE DELETE THIS 
