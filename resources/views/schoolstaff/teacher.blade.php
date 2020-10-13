@@ -30,16 +30,19 @@ Home Admin
               <li><a href="#">Overdue Task</a></li>
             </ul>
           </div>
+          <span><input id="myInput" type="text" placeholder="Search.."></span>
         </div>
       </div>
       <div class="module-body table">               
 
         <table class="table table-message">
-          <tbody>
+          <thead>
             <tr class="heading">
               <td class="cell-title">Name</td>
               <td class="d-flex justify-content-end">Status</td>
             </tr> 
+          </thead>
+          <tbody id="myTable">
             @foreach($teachers as $teacher)
             <tr class="task">
               <td class="cell-title"><div>{{$teacher->user->name}} </div></td>
@@ -73,4 +76,18 @@ Home Admin
     
   </div><!--/.content-->
  						
+@endsection
+
+@section('script')
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
 @endsection

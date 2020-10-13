@@ -4,102 +4,272 @@
 Class details
 @endsection
 
+@section('css')
+<style type="text/css">
+/*.teacherList{
+}*/
+
+
+
+</style>
+
 @section('content') 
 <h2>Class Details::Class {{$sclass->class}}{{$section->section}}</h2><br>
 <p>
-  <a class="students btn btn-primary" data-toggle="collapse" href="#students" role="button" aria-expanded="true" aria-controls="students" style="background-color: #20c9a6;">
+  <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#students" aria-expanded="true" aria-controls="students">
     Students
-  </a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teachers" aria-expanded="false" aria-controls="teachers"  style="background-color: #20c9a6;">
+  </button>
+  <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#teachers" aria-expanded="false" aria-controls="teachers">
     Teachers
+  </button>
+  <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#subjects" aria-expanded="false" aria-controls="subjects">
+    Subjects
+  </button>
+  <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#homeworks" aria-expanded="false" aria-controls="homeworks">
+    HomeWorks
   </button>
 </p>
 <div class="collapse" id="students">
   <div class="card card-body">
     <div class="list-group">
-      <button type="button" class="list-group-item list-group-item-action active text-center" style="background-color: #20c9a6;">
+      <button type="button" class="list-group-item list-group-item-action active text-center btn-success">
        Students
       </button>
-      <ul class="list-group">
         @foreach($students as $student)
-        <li class="list-group-item p-2">
+        <div class="card">
           <div class="row no-gutters">
-            <div class="col-md-2">
-              <img src="{{asset('storage/'.$student->user->img)}}" style="height: 140px; width: 150px; border-radius: 50%" class="card-img p-2" alt="...">
-            </div>
-            <div class="col-md-7">
+            <div class="col-md-3 d-flex justify-content-between">
+              <div>
+              <img src="{{asset('storage/'.$student->user->img)}}"  style="height: 75px; width: 75px;" class="card-img p-1" alt="...">
+              </div>            
               <div class="card-body">
-                  <h4 class="card-title text-center">{{$student->user->name}}  </h4>
+                {{$student->user->name}}  <br> {{$student->user->lname}}
+              </div>
+            </div>
+            <div class="col-md-8">
                     <div class="d-flex justify-content-between">
-                      <p class="card-text"><b> DOB-</b> {{$student->DOB}}</p>
-                      <p class="card-text"><b> email-</b> {{$student->user->email}}</p>
+                      <div><b> DOB-</b> {{$student->DOB}}</div>
+                      <div><b> email-</b> {{$student->user->email}}</div>
                     </div>                  
                     <div class="d-flex justify-content-between">
-                      <p class="card-text"><b> Contact No.-</b> {{$student->contactNo}}</p>
-                      <p class="card-text"><b> Class-</b> {{$student->sclass->class}}{{$student->section->section}}</p>
-
+                      <div><b> Contact No.-</b> {{$student->contactNo}}</div>
+                      <div><b> Class-</b> {{$student->sclass->class}}{{$student->section->section}}</div>
                     </div>
-                </div>
             </div>
-            <div class="col-md-3">
-             <a href="#" class="btn btn-success btn-circle btn-sm mt-2" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#studentClassChange" style="margin-left: 120px">
+            <div class="col-md-1">
+              <div class="d-flex flex-column bd-highlight">
+                  <div>
+             <a href="#" class="btn btn-success btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#studentClassChange">
                 <i class="fas fa-edit"></i>
               </a>
-              <a href="#" class="btn btn-danger btn-circle btn-sm mt-2" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#studentDelete" style="margin-left: 120px">
+              </div>
+                  <div>
+              <a href="#" class="btn btn-danger btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#studentDelete">
                 <i class="fas fa-trash"></i>
               </a>
+               </div>
+                </div>
             </div>
           </div>
-        </li>
+        </div>
         @endforeach
-      </ul>  
     </div>
   </div>
 </div>
 <div class="collapse" id="teachers">
   <div class="card card-body">
     <div class="list-group">
-      <button type="button" class="list-group-item list-group-item-action active text-center"  style="background-color: #20c9a6;">
+      <button type="button" class="list-group-item list-group-item-action active text-center btn-success">
        Teachers
       </button>
       @foreach($relations as $relation)
         @if(isset($relation->teacher))
           <div class="card">
             <div class="row no-gutters">
-              <div class="col-md-2">
-                <img src="{{asset('storage/'.$relation->teacher->user->img)}}" style="height: 150px; width: 150px; border-radius: 50%;margin-top: 13%" class="card-img p-2" alt="...">
-              </div>
-              <div class="col-md-7">
+              <div class="col-md-3 d-flex justify-content-between">
+                <div>
+                  <img src="{{asset('storage/'.$relation->teacher->user->img)}}"  style="height: 75px; width: 75px;" class="card-img p-1" alt="...">
+                </div>                
                 <div class="card-body">
-                  <h4 class="card-title text-center">{{$relation->teacher->user->name}} </h4>
-                    <div class="d-flex justify-content-between">
-                      <p class="card-text"><b> Subject-</b> {{$relation->subject->name}}</p>
-                      <p class="card-text"><b> Qualification-</b> {{$relation->teacher->Qualification}}</p>
-                    </div>                  
-                    <div class="d-flex justify-content-between">
-                      <p class="card-text"><b> email-</b> {{$relation->teacher->user->email}}</p>
-                      <p class="card-text"><b> DOB-</b> {{$relation->teacher->DOB}}</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                      <p class="card-text"><b> Contact No.-</b> {{$relation->teacher->contactNo}}; </p>
-                          <p class="card-text"><b> Classes he/she teaches-</b>
-                          @foreach($relation->teacher->assignedRoles() as $role) 
-                                @if(isset($role)) 
-                                  {{$role->sclass->class}}{{$role->section->section}}:{{$role->subject->name}}; 
-                                @endif
-                              @endforeach
-                            </p>
-                    </div>
+                  {{$relation->teacher->user->name}} <br> {{$relation->teacher->user->lname}}
                 </div>
               </div>
-              <div class="col-md-3">
-                <a class="d-flex justify-content-center btn btn-success mr-2" href="" style="margin-left: 120px;margin-top: 5%">Edit</a> 
-                <a class="d-flex justify-content-center btn btn-danger mr-2" href="" style="margin-left: 120px;margin-top: 5%">delete</a>
+              <div class="col-md-8">
+                <div class="d-flex justify-content-between">
+                  <div><b> Subject-</b> {{$relation->subject->name}}</div>
+                  <div><b> Qualification-</b> {{$relation->teacher->Qualification}}</div>
+                </div>                  
+                <div class="d-flex justify-content-between">
+                  <div><b> email-</b> {{$relation->teacher->user->email}}</div>
+                  <div><b> DOB-</b> {{$relation->teacher->DOB}}</div>   
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div><b> Contact No.-</b> {{$relation->teacher->contactNo}};</div>
+                  <div><b> Classes he/she teaches-</b>
+                    @foreach($relation->teacher->assignedRoles() as $role) 
+                      @if(isset($role)) 
+                        {{$role->sclass->class}}{{$role->section->section}}:{{$role->subject->name}}; 
+                      @endif
+                    @endforeach
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="d-flex flex-column bd-highlight">
+                  <div>
+                    <a href="#" class="btn btn-success btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  </div>
+                  <div>
+                    <a href="#" class="btn btn-danger btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId({{$student->id}}, '{{$student->user->name}}')" data-target="#">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                  </div>
+                </div>                
               </div>
             </div>
           </div>
         @endif
       @endforeach
+    </div>
+  </div>
+</div>
+<div class="collapse" id="subjects">
+  <div class="card card-body">
+    <div class="list-group">
+      <button type="button" class="list-group-item list-group-item-action active text-center btn-success">
+       Subjects <span class="badge badge-light float-right" onclick="console1('asas')"> Add New Subject</span>
+      </button>
+      <div class="card addteacher" style="display: none;">
+        <div class="card-header">
+          <form class="mb-0">
+            <div class="form-row align-items-center">
+              <div class="col-auto">
+                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  <option selected>Select Subject</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  <option selected>Select Teacher</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="autoSizingCheck">
+                  <label class="form-check-label" for="autoSizingCheck">
+                    Make ClassTeacher
+                  </label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-warning">Add Subject</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      @foreach($relations as $relation)
+        @if(isset($relation->subject))
+          <div class="card">
+            <div class="row no-gutters" @if($relation->classteacher == 1) style="background-color: #b2d8d8;" @endif>
+              <div class="col-md-1">
+                <img src="{{asset('storage/'.$relation->teacher->user->img)}}" style="height: 75px; width: 75px;" class="card-img p-2" alt="...">
+              </div>
+              <div class="col-md-2">
+                <div class="card-body">
+                  {{$relation->subject->name}}  
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card-body teacherListName">
+                   Taught by:@if(isset($relation->teacher)) {{$relation->teacher->user->name}}  {{$relation->teacher->user->lname}} @endif
+                    @if($relation->classteacher == 1)
+                      <span class="badge badge-light ml-2">ClassTeacher</span>
+                    @else
+                      <span class="makeClassTeacher badge badge-light ml-2">Make ClassTeacher</span>
+                    @endif          
+                </div>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-success btn-sm mr-2" style="margin-top: 5%">@if(isset($relation->teacher)) Change @else Assign @endif Teacher</button> 
+                <button class="btn btn-danger btn-sm mr-2"  style="margin-top: 5%">delete</button>
+              </div>
+            </div>
+          </div>
+        @endif
+      @endforeach
+    </div>
+  </div>
+</div>
+
+
+<div class="collapse" id="homeworks">
+  <div class="card card-body">
+    <div class="list-group">
+      <button type="button" class="list-group-item list-group-item-action active text-center btn-success">
+       Homeworks
+      </button>
+
+
+        @foreach($relations as $relation)        
+          @if(isset($relation->subject))
+            {{$relation->subject->name}}
+
+          @if(count($relation->subject->classSubjectHomeworks($school->id, $sclass->id, $section->id)) !== 0)
+            @foreach($relation->subject->classSubjectHomeworks($school->id, $sclass->id, $section->id) as $homework)
+
+        <div class="card">
+          <div class="row no-gutters">
+            <div class="col-md-3 d-flex justify-content-between">
+              <div>
+              <img src=""  style="height: 75px; width: 75px;" class="card-img p-1" alt="...">
+              </div>            
+              <div class="card-body">
+                  {{$homework->heading}}
+              </div>
+            </div>
+            <div class="col-md-8">
+                    <div class="d-flex justify-content-between">
+                      <div><b> DOB-</b> </div>
+                      <div><b> email-</b> </div>
+                    </div>                  
+                    <div class="d-flex justify-content-between">
+                      <div><b> Contact No.-</b> </div>
+                      <div><b> Class-</b> {</div>
+                    </div>
+            </div>
+            <div class="col-md-1">
+              <div class="d-flex flex-column bd-highlight">
+                  <div>
+             <a href="#" class="btn btn-success btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId()" data-target="#studentClassChange">
+                <i class="fas fa-edit"></i>
+              </a>
+              </div>
+                  <div> 
+              <a href="#" class="btn btn-danger btn-circle btn-sm mt-2 ml-4" data-toggle="modal" onclick="assignStudentId()" data-target="#studentDelete">
+                <i class="fas fa-trash"></i>
+              </a>
+               </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            @endforeach
+          @else
+            No HomeWork for this subject
+          @endif
+          @endif
+        @endforeach
     </div>
   </div>
 </div>
@@ -144,15 +314,15 @@ Class details
   </div>
 
 
-  <!-- Student Delete Class Modal-->
-  <div class="modal fade" id="studentDelete" tabindex="-1" role="dialog" aria-labelledby="studentDelete" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="studentClass">Remove <span class="studentName"></span> from School?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+<!-- Student Delete Class Modal-->
+<div class="modal fade" id="studentDelete" tabindex="-1" role="dialog" aria-labelledby="studentDelete" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentClass">Remove <span class="studentName"></span> from School?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
         </div>
           <div class="modal-body">
             Once Removed from School Student cannot be re-added by School. Hence, you should remove only if student has left school. Alternatively you can Remove Student From Class only. 
@@ -285,6 +455,30 @@ function saveStudentClass(){
     }
   }); 
 }
+
+$(document).ready(function() {
+    $('.makeClassTeacher').css('display', 'none');
+    $(".teacherListName").hover(function(){
+      $(this).find(".makeClassTeacher").css('display', '');
+      }, function(){
+      $(this).find(".makeClassTeacher").css('display', 'none');
+    });
+
+});
+
+function console1(msg){
+  console.log(msg);
+  $('.addteacher').toggle();
+}
+
+// var content = $("#blog_1").find(".entryContent").text().split(" ");
+// var content = "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
+// var slicedContent = content.slice(0,50);
+
+// console.log(slicedContent+'....');
+
+//   //$slicedContent = $content.slice(0,30);
 
 
  </script>

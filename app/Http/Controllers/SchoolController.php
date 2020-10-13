@@ -85,7 +85,11 @@ class SchoolController extends Controller
      */
     public function show($id)
     {
-        dd('hererfgr'); 
+       // dd($id); 
+        $school = School::find($id);
+       // dd($school);
+        return view('schoolstaff.home')->with('school', $school);
+
     }
 
     /**

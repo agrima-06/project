@@ -55,7 +55,10 @@ class HomeController extends Controller
         }
 
         elseif (auth()->user()->role == 'schoolstaff') { 
-          return view('schoolstaff.home');//->with('aboutme', $aboutme);
+                
+          $school = auth()->user()->schoolstaff->school;
+         // dd($school);
+          return view('schoolstaff.home')->with('school', $school);
         }
 
         elseif (auth()->user()->role == 'teacher') {

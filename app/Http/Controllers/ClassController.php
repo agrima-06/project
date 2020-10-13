@@ -19,26 +19,26 @@ class ClassController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role == 'admin') {
-            $classes = Sclass::all();
-            //$sections = Section::all();
-            return view('admin.addClass')->with('classes', $classes);
-        }
-        //route list kholo
-        if (auth()->user()->role == 'schoolstaff') {
-           $school_id = auth()->user()->schoolstaff->school->id;
+        // if (auth()->user()->role == 'admin') {
+        //     $classes = Sclass::all();
+        //     //$sections = Section::all();
+        //     return view('admin.addClass')->with('classes', $classes);
+        // }
+        // //route list kholo
+        // if (auth()->user()->role == 'schoolstaff') {
+        //    $school_id = auth()->user()->schoolstaff->school->id;
 
-           $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
+        //    $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
 
-           $sclass = Sclass::all();
-           $section = Section::all();
-        // // dd($relations);
-        //   $classTecher21 = SchoolTeacherRelation::select('sclass_id', 'section_id','classteacher')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
-        // $classTTT = Sclass::find(1);
-        // dd($classTTT->StudentCountClass(1, 3));
-        //  StudentCountClass($section_id, $school_id )
-           return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclass', $sclass)->with('section', $section);
-        }
+        //    $sclasses = Sclass::all();
+        //    $sections = Section::all();
+        // // // dd($relations);
+        // //   $classTecher21 = SchoolTeacherRelation::select('sclass_id', 'section_id','classteacher')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
+        // // $classTTT = Sclass::find(1);
+        // // dd($classTTT->StudentCountClass(1, 3));
+        // //  StudentCountClass($section_id, $school_id )
+        //    return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclasses', $sclasses)->with('sections', $sections);
+        // }
     }
 
     /**
@@ -81,10 +81,17 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Sclass $class)
+    public function show($id)
     {
-      return view('schoolstaff.classView')->with('class', $class);
-    
+        if (auth()->user()->role == 'admin' || 'schoolstaff' ) {
+           
+           $school_id = School::find($id)->id;
+           //dd($school_id);
+           $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
+           $sclasses = Sclass::all();
+           $sections = Section::all();
+           return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclasses', $sclasses)->with('sections', $sections);
+        }
     }
 
     /**
@@ -133,7 +140,7 @@ class ClassController extends Controller
       $sclass = Sclass::find($cId);
       $section = Section::find($secId);
 
-      $relations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();
+      $relations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id], ['approved', '=', 1]])->get();
       $students = Student::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id],  ['approved', '=', 1]])->get();
 
         //classSection Variable is required for Modal in student class. 

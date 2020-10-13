@@ -26,7 +26,10 @@ class TeacherController extends Controller
         }
         
         if (auth()->user()->role == 'schoolstaff') {
-            $teachers = Teacher::all();
+
+            $school_id = auth()->user()->schoolstaff->school->id;
+         //  dd($school_id);
+            $teachers = Teacher::where('school_id', '=', $school_id)->get();;
             return view('schoolstaff.teacher')->with('teachers', $teachers);
         }
         

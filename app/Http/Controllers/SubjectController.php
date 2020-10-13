@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Subject;
+use App\SchoolTeacherRelation;
+
 use DB;
 
 class SubjectController extends Controller
@@ -14,9 +16,17 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $subjects = Subject::all();
-        return view('subject.view')->with('subjects', $subjects);
+    {            
+        if (auth()->user()->role == 'schoolstaff') {
+          $school_id = auth()->user()->schoolstaff->school->id;
+          $relations = SchoolTeacherRelation::select('subject_id', 'school_id')->where([['school_id', '=', $school_id]])->distinct()->get();
+          $newrelations = SchoolTeacherRelation::select('subject_id', 'school_id', 'teacher_id')->where([['school_id', '=', $school_id]])->distinct()->get();
+          $newClassrelations = SchoolTeacherRelation::select('subject_id', 'school_id', 'sclass_id', 'section_id')->where([['school_id', '=', $school_id]])->distinct()->get();
+           return view('schoolstaff.subject')->with('relations', $relations)->with('newrelations',$newrelations)->with('newClassrelations', $newClassrelations);
+        }
+
+        // $subjects = Subject::all();
+        // return view('subject.view')->with('subjects', $subjects);
     }
 
     /** 

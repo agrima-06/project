@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SchoolTeacherRelation;
 use App\Teacher;
 use App\Student;
+use App\Defaultsubject;
 use Redirect;
 
 
@@ -294,6 +295,45 @@ class AdminController extends Controller
             }
         }
         return response()->json(["data" => $data]);
+    }
+
+    public function schoolAddClass(Request $request){
+
+        $school_id = $request->get('school_id');
+        $sclass_id = $request->get('sclass_id');    
+        $section_id = $request->get('section_id'); 
+        $defaultsubjects = $request->get('default_subjects');
+        $board = 'CBSE'; //Please Make it variable later 
+        
+        //check if same class aready exist::
+        $SchoolTeacherRelations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get(); 
+
+       // dd($SchoolTeacherRelations);
+
+        if(count($SchoolTeacherRelations) !== 0){
+                dd('exist'); // Return with message. 
+        }
+
+        if(isset($defaultsubjects)){
+            $defaultsubjectlists = Defaultsubject::where([['sclass_id', '=', $sclass_id], ['board', '=', $board]])->get();            
+            foreach ($defaultsubjectlists as $list) {
+                $relation = SchoolTeacherRelation::create([
+                    'school_id' => $school_id,
+                    'sclass_id' => $sclass_id,
+                    'section_id'=> $section_id,
+                    'subject_id' => $list->subject->id,
+                    'approved' => 1,
+                ]);
+            }
+        }
+
+        dd('class created');
+      //  $defaultsubject = DefaultSubject::where('sclass_id', '=', $sclass_id)->get();
+
+      //  foreach
+
+        $SchoolTeacherRelations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id], ['approved', '=', 1]])->get(); 
+
     }
 
 

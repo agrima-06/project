@@ -80,7 +80,7 @@ Route::post('/ajaxSubtopic', 'PracticeQuestionController@ajaxSubtopic')->name('a
 Route::get('/question/{topic_id}/{slug}', 'PracticeQuestionController@sortQuestion')->name('sort.question');
 
 Route::resource('class', 'ClassController');
-Route::get('school-class-profile/{sId}/{cId}/{secId}', 'ClassController@schoolClassProfile')->name('school.class.profile'); 
+
 
 
 Route::resource('schoolstaff', 'SchoolstaffController');
@@ -99,7 +99,8 @@ Route::post('/admin/approvals/{id}', 'AdminController@approvals')->name('admin.a
 Route::post('/studentclass/admin', 'AdminController@assignStudentClass')->name('ajax.student.class');
 Route::post('/school/class/delete', 'AdminController@deleteSchoolClass')->name('delete.school.class');
 Route::post('/school/class/teacherlist', 'AdminController@schoolClassTeacherlist')->name('school.class.teacherlist');
-
+Route::post('/school/add-class', 'AdminController@schoolAddClass')->name('school.add.class');
+Route::get('school-class-profile/{sId}/{cId}/{secId}', 'ClassController@schoolClassProfile')->name('school.class.profile'); 
  
 #TEST ROUTE DELETE THIS 
 

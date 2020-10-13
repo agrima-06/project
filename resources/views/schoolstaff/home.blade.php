@@ -7,18 +7,15 @@ Home Admin
 
 @section('content')
 
-          <!-- Main Content -->
-    <div id="content">
-
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+              </div>
             <!--Student Content Row -->
             <div class="row">
                 <!-- Pending Requests Card Example -->
                 <div class="col-12 mb-4">
-                  <h6 class="m-0 mb-2 font-weight-bold text-primary"> Student School Joining Request::-</h6>  @foreach(Auth::user()->schoolstaff->school->students as $student)
+                  <h6 class="m-0 mb-2 font-weight-bold text-primary"> Student School Joining Request::-</h6>  @foreach($school->students as $student)
                     @if($student->approved == 0)
                   <div class="card mb-3" style="max-width: 100%;">
                     <div class="row no-gutters">
@@ -71,9 +68,9 @@ Home Admin
             <!--Teacher Content Row -->
             <div class="row">
                 <!-- Pending Requests Card Example -->
-                <div class="col-12">                  
+                <div class="col-12 mb-4">                  
                     <h6 class="m-0 font-weight-bold text-primary">Teachers School Joining Request::-</h6>
-                  @foreach(Auth::user()->schoolstaff->school->teachers as $teacher)
+                  @foreach($school->teachers as $teacher)
                     @if($teacher->approved == 0)
                   <div class="card mb-2" style="max-width:100%;">
                     <div class="row no-gutters">
@@ -129,11 +126,9 @@ Home Admin
                 </div> 
                 <div class="col-12 mb-4">                  
                     <h6 class="m-0 font-weight-bold text-primary">Teachers Role Request::-</h6>
-                  @foreach(Auth::user()->schoolstaff->school->teachers as $teacher)
+                  @foreach($school->teachers as $teacher)
                     @foreach($teacher->schoolTeacherRelations as $relation)
-                      @if($relation->approved == 0)
-
-                      
+                      @if($relation->approved == 0)                      
                   <div class="card mb-2" style="max-width:100%;">
                     <div class="row no-gutters">
                       <div class="col-md-1 p-2" style="text-align:center;">
@@ -177,7 +172,7 @@ Home Admin
             <!-- End Pending Request -->
 
           <div class="row" style="display: none;">
-            <div class="col-lg-12">
+            <div class="col-xl-3 col-md-6 mb-4">
                <!-- Brand Buttons -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -196,13 +191,13 @@ Home Admin
           <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <a href="{{route('class.index')}}">
+              <a href="{{route('class.show', $school->id)}}">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2"> 
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Classes</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">@if(count(Auth::user()->schoolstaff->school->classes()) > 0) {{count(Auth::user()->schoolstaff->school->classes())}} @endif
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">@if(count($school->classes()) > 0) {{count($school->classes())}} @endif
                          <!-- if(count($schools) > 0) {count($schools)} endif -->
                       </div>
                     </div>
@@ -224,7 +219,7 @@ Home Admin
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Teachers</div> 
                       <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        @if(count(Auth::user()->schoolstaff->school->teachers) > 0) {{count(Auth::user()->schoolstaff->school->teachers)}} @endif
+                        @if(count($school->teachers) > 0) {{count($school->teachers)}} @endif
                       </div>
                     </div>
                     <div class="col-auto">
@@ -239,13 +234,13 @@ Home Admin
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <a href="#student-list">
+              <a href="{{route('student.index')}}">
               <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Students</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">@if(count(Auth::user()->schoolstaff->school->students) > 0) {{count(Auth::user()->schoolstaff->school->students)}} @endif <b>+</b></div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">@if(count($school->students) > 0) {{count($school->students)}} @endif <b>+</b></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -276,119 +271,41 @@ Home Admin
             </div>               
           </div>
 
-          <div class="row">
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <a href="{{(route('homework.index'))}}">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Homework</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          if(count($homeworks) > 0) {count($homeworks)} endif<b>+</b>     
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-12 mb-4">
+            <div class="card shadow mb-4 alert alert-success" role="alert" id="student-list">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Teachers list</h6>
               </div>
-              </a>
+              <div class="card-body">
+                @foreach($school->students as $student)
+                  {{$student->user->name}}<br>
+                @endforeach
+              </div>
             </div>
+          </div>               
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <a href="{{(route('practiceQuestion.index'))}}">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Practice Questions</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        if(count($practiceQuestions) > 0) {count($practiceQuestions)} endif <b>+</b>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </a>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">          
-              <a href="{{route('class.index')}}">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Class</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </a>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <a href="{{route('section.index')}}">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Section</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                </a>
-            </div>
-          </div>
         </div>
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <div class="card shadow mb-4 alert alert-success" role="alert" id="student-list">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-success">Teachers list</h6>
-            </div>
-            <div class="card-body">
-              @foreach(Auth::user()->schoolstaff->school->students as $student)
-                {{$student->user->name}}<br>
-              @endforeach
-            </div>
-          </div>
-
+        <div class="row">
+          <div class="col-12 mb-4">
           <!-- Basic Card Example students list -->
           <div class="card shadow mb-4 alert alert-info" role="alert" id="teacher-list">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-info">Students list</h6>
             </div>
             <div class="card-body">
-              @foreach(Auth::user()->schoolstaff->school->teachers as $teacher)
+              @foreach($school->teachers as $teacher)
                 {{$teacher->user->name}}<br>
               @endforeach
             </div>
+          </div>
           </div>         
-
         </div>
+        
 
-      </div>
-      <!-- End of Main Content -->
+
+
 
 <!-- Teacher Assign Role Modal-->
   <div class="modal fade" id="TeacherRoleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -403,13 +320,13 @@ Home Admin
           <div class="modal-body">
             <form>
               <div class="input-group-text">
-                <select class="assignclass" name="class_id" onChange="getSection({{Auth::user()->schoolstaff->school->id}},this.value);">
+                <select class="assignclass" name="class_id" onChange="getSection({{$school->id}},this.value);">
                   <option></option>
-                  @foreach(Auth::user()->schoolstaff->school->classes() as $class)
+                  @foreach($school->classes() as $class)
                     <option value="{{$class->sclass->id}}">Class: {{$class->sclass->class}}</option>
                   @endforeach
                 </select>
-                <select class="assignsection" name="section_id" onChange="getSubject({{Auth::user()->schoolstaff->school->id}},this.value);">
+                <select class="assignsection" name="section_id" onChange="getSubject({{$school->id}},this.value);">
                   <option></option>
                     <option value=""></option>
                 </select>
@@ -438,10 +355,10 @@ Home Admin
   </div>
 
   <div class="defaultClassList" style="display: none;">
-       <option></option>
-                  @foreach(Auth::user()->schoolstaff->school->classes() as $class)
-                    <option value="{{$class->sclass->id}}">Class: {{$class->sclass->class}}</option>
-                  @endforeach
+   <option></option>
+    @foreach($school->classes() as $class)
+    <option value="{{$class->sclass->id}}">Class: {{$class->sclass->class}}</option>
+    @endforeach
   </div>
  						
 @endsection 
@@ -494,7 +411,7 @@ function savedata(reassign, deleted){
     method: 'POST',
     data: {
         teacher_id: window.teacherId,
-        school_id: {{Auth::user()->schoolstaff->school->id}},
+        school_id: {{$school->id}},
         sclass_id: a,
         section_id: b,
         subject_id: c,

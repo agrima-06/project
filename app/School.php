@@ -27,6 +27,11 @@ class School extends Model
         return $this->hasMany('App\SchoolTeacherRelation');
     }
 
+    public function homeworks()
+    {
+        return $this->hasMany('App\Homework');
+    }
+
     public function classes() 
     {
         $school_id = $this->id;

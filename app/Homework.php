@@ -15,10 +15,20 @@ class Homework extends Model
         return $this->hasMany('App\Homeworkfile');
     }
 
-    public function User()
+    public function teacher()
 	{
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Teacher');
 	}
+
+    public function topic()
+    {
+        return $this->belongsTo('App\topic');
+    }
+
+    public function school()
+    {
+        return $this->belongsTo('App\School');
+    }  
 
     public function sclass()
     {

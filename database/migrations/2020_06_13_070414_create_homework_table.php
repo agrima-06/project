@@ -15,13 +15,15 @@ class CreateHomeworkTable extends Migration
     {
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
-            $table->string('sclass_id')->nullable();
-            $table->string('topic')->nullable();
-            $table->string('subject_id')->nullable();
+            $table->integer('school_id')->nullable();
+            $table->integer('sclass_id')->nullable();
+            $table->integer('section_id')->nullable();
+            $table->integer('subject_id')->nullable();
+            $table->integer('topic_id')->nullable();
+            $table->string('heading')->nullable();
             $table->longText('content')->nullable();
             $table->string('hint')->nullable();
-            $table->integer('school_id')->nullable();
-            $table->integer('user_id')->nullable(); // This id will always be of Teacher
+            $table->integer('teacher_id')->nullable(); // This id will always be of Teacher
             $table->timestamps();
         });
     }

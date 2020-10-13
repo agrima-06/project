@@ -31,6 +31,11 @@ class Teacher extends Model
         return $this->belongsToMany('App\Subject');
     }
 
+    public function homeworks()
+    {
+        return $this->hasMany('App\Homework');
+    }
+
 
     public function schoolTeacherRelations()
     {

@@ -25,16 +25,13 @@ class StudentController extends Controller
     public function index()
     {
 
+             
         if (auth()->user()->role == 'schoolstaff') {
 
-          // $schools = School::all();
-          // $practiceQuestions = PracticeQuestion::all();
-          // $homeworks = Homework::all();
-          // $teachers = Teacher::all();
-          // $students = Student::all();
-
-            // return view('schoolstaff.home')->with('schools', $schools)->with('teachers', $teachers)->with('students', $students)->with('homeworks', $homeworks)->with('practiceQuestions', $practiceQuestions);  
-            return view('schoolstaff.home');//->with('aboutme', $aboutme);
+            $school_id = auth()->user()->schoolstaff->school->id;
+         //  dd($school_id);
+            $students = Student::where('school_id', '=', $school_id)->get();;
+            return view('schoolstaff.student')->with('students', $students);
         }
 
         elseif (auth()->user()->role == 'student') {

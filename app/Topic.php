@@ -15,4 +15,9 @@ class Topic extends Model
         return $this->hasMany('App\PracticeQuestion');
     }
 
+    public function homeworks()
+    {
+        return $this->hasMany('App\Homework');
+    }
+
 }

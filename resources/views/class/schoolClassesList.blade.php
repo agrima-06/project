@@ -16,7 +16,6 @@ Home Admin
 @section('content')
 
    <div class="content">
-
     <div class="module message">
       <div class="module-head">
         <h3>Task Management Tool</h3>
@@ -82,9 +81,8 @@ Home Admin
           @endforeach
           </tbody>
         </table>
-
       </div>
-    </div>  
+    </div>  <!--/.content-->
 
     <!-- Delete Class Modal-->
     <div class="modal fade" id="classDelete" tabindex="-1" role="dialog" aria-labelledby="classDelete" aria-hidden="true">
@@ -153,40 +151,55 @@ Home Admin
       </div>
     </div>
 
-      <!--Add New Class Modal -->
+    <!--Add New Class Modal -->
     <div class="modal fade" id="addNewClass" tabindex="-1" aria-labelledby="addNewClass" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="as">Add Class</h5>
+            <h5 class="modal-title" id="as">Add Class & Section in your School</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-          <form method="post" enctype="multipart/form-data" action= "{{route('class.store')}}" id="storeClass">
-              @csrf
-          <div class="form-group">
-            <label for="exampleInputEmail1">Add Class </label>
-            <input type="text" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp" name="class">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Add section </label>
-            <input type="text" class="form-control" id="exampleInputEmail141" aria-describedby="emailHelp" name="section">
-          </div>
-          <div class="form-group">
-            
-          </div>
-        </form>
+            <form method="post" action= "{{route('school.add.class')}}" id="storeClass">
+                @csrf
+              <input type="hidden" name="school_id" value="{{$school_id}}">
+              <div class="form-group">
+                <div class="col-sm-10 ">
+                  <select class="assignclass" name="sclass_id"  style="width: 75%">
+                    <option></option>
+                    @foreach($sclasses as $sclass)                  
+                    <option value="{{$sclass->id}}">Class {{$sclass->class}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-10 ">
+                  <select class="assignsection" name="section_id"  style="width: 75%">
+                    <option></option>
+                    @foreach($sections as $section)                  
+                    <option value="{{$section->id}}">{{$section->section}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="subjectSyllabus" name="default_subjects" value="1">
+                  <label class="form-check-label" for="subjectSyllabus">Add default subject in Class as per CBSE Syllabus</label>
+                </div>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-            <button type="button" class="btn btn-primary" onclick="storeClass.submit();">Submit</button>
+            <button type="button" class="btn btn-success" onclick="storeClass.submit();">Add Class</button>
           </div>
         </div>
       </div>
-
-  </div><!--/.content-->
+  </div>
  						
 @endsection
 
@@ -209,6 +222,13 @@ function assignClassSectionId(classId, classname, sectionId, sectionname){
 $(document).ready(function() {
     $('.assignteacher').select2({
     placeholder: "Select Teacher",
+    allowClear: true
+    });
+    $('.assignclass1').select2({
+    placeholder: "Select class",
+    allowClear: true
+    });$('.assignsection1').select2({
+    placeholder: "Select section",
     allowClear: true
     });
 });

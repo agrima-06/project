@@ -37,4 +37,16 @@ class Subject extends Model
         return $this->hasMany('App\Topic');
     }
 
+    public function defaultsubjects()
+    {
+        return $this->hasMany('App\Defaultsubject');
+    }
+
+    public function classSubjectHomeworks($school_id, $sclass_id, $section_id)
+    {        
+       $homeworks = Homework::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id], ['subject_id', '=', $this->id]])->get();
+       return $homeworks;
+    }
+
+
 }
