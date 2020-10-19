@@ -9,18 +9,28 @@ Home
 
 	<div class="col-7">
 			
-	@if(isset($aboutme))
+@if(isset($aboutme))
 	@if($aboutme->id !=null && $aboutme->user_id !=null  && $aboutme->school_id != null   &&$aboutme->sclass_id != null && $aboutme->contactNo != null && $aboutme->DOB != null )
 		
 	@else
 	  @if(Auth::user()->role=="student")
 	      <script>window.location = "{{route('student.edit', $aboutme->id)}}";</script>
-	  @else(Auth::user()->role=="teacher")
+	  @elseif(Auth::user()->role=="teacher111")
           <script>window.location = "{{route('teacher.edit', $aboutme->id)}}";</script>
       @endif
-
 	@endif
 @endif
+
+@if(Auth::user()->role=="teacher")
+	@if((Auth::user()->teacher->isClassTeacher(Auth::user()->teacher->school_id)) !== null)
+		Hi, you are Class Teacher of: Class:
+		{{Auth::user()->teacher->isClassTeacher(Auth::user()->teacher->school_id)->sclass->class}}
+		{{Auth::user()->teacher->isClassTeacher(Auth::user()->teacher->school_id)->section->section}}
+		<br>
+		<h1>REQUEST SHOULD BE COPIED FROM SCHOOL STAFF WITH CLASS AND SECTION OF THE CLASS TEACHER.</h1>
+	@endif
+@endif
+
 @if(Auth::user()->role=="student")
   @if(isset($aboutme))
 	@if($aboutme->id !=null && $aboutme->user_id !=null  && $aboutme->school_id != null   &&$aboutme->sclass_id != null && $aboutme->contactNo != null && $aboutme->DOB != null )

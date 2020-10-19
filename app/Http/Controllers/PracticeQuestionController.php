@@ -20,6 +20,13 @@ class PracticeQuestionController extends Controller
      */
     public function index(Request $request)
     {
+        //$array = array("Volvo", "BMW", "Toyota");
+        $array = [11, 12, 14];
+        $practicequestions = PracticeQuestion::whereIn('id',$array)->get();
+
+
+        dd($practicequestions);
+
         if(auth()->user()->role == 'teacher'){
 
           $teacher_id = auth()->user()->teacher->id;          

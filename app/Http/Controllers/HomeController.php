@@ -63,13 +63,13 @@ class HomeController extends Controller
 
         elseif (auth()->user()->role == 'teacher') {
           $aboutme = auth()->user()->teacher;
-          return view('/home')->with('aboutme', $aboutme);             
-
+          $school = auth()->user()->teacher->school;
+          return view('teacher.home')->with('aboutme', $aboutme)->with('school', $school);           
         }
         elseif (auth()->user()->role == 'student') {
           $aboutme = auth()->user()->student;
           //dd($aboutme->relations()->subject);
-          // $school_id = auth()->user()->student->school_id;
+          // $school_id = auth()->user()->student->school_id; 
           // $sclass_id = auth()->user()->student->sclass_id;
           // $section_id = auth()->user()->student->section_id;         
           // $SchoolTeacherRelations = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['sclass_id', '=', $sclass_id], ['section_id', '=', $section_id]])->get();

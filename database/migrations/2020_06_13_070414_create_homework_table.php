@@ -20,10 +20,11 @@ class CreateHomeworkTable extends Migration
             $table->integer('section_id')->nullable();
             $table->integer('subject_id')->nullable();
             $table->integer('topic_id')->nullable();
-            $table->string('heading')->nullable();
+            $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->string('hint')->nullable();
             $table->integer('teacher_id')->nullable(); // This id will always be of Teacher
+            $table->date('expiry');
             $table->timestamps();
         });
     }

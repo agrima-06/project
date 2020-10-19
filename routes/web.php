@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great! 
+| contains the "web" middleware group. Now create something great!  
 |
 */
 
@@ -102,6 +102,11 @@ Route::post('/school/class/teacherlist', 'AdminController@schoolClassTeacherlist
 Route::post('/school/add-class', 'AdminController@schoolAddClass')->name('school.add.class');
 Route::get('school-class-profile/{sId}/{cId}/{secId}', 'ClassController@schoolClassProfile')->name('school.class.profile'); 
  
+
+Route::resource('objectivetest', 'ObjectivetestController');
+
+
+
 #TEST ROUTE DELETE THIS 
 
 

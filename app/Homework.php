@@ -35,6 +35,12 @@ class Homework extends Model
         return $this->belongsTo('App\Sclass');
     }
 
+    public function section()
+    {
+        return $this->belongsTo('App\Section');
+    }
+
+
     public function subject()
     {
         return $this->belongsTo('App\Subject');

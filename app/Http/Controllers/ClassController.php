@@ -83,14 +83,24 @@ class ClassController extends Controller
      */
     public function show($id)
     {
-        if (auth()->user()->role == 'admin' || 'schoolstaff' ) {
-           
+        if (auth()->user()->role =='admin' || auth()->user()->role == 'schoolstaff') {           
            $school_id = School::find($id)->id;
            //dd($school_id);
            $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where('school_id', '=', $school_id)->distinct()->orderby('sclass_id')->get();
            $sclasses = Sclass::all();
            $sections = Section::all();
            return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclasses', $sclasses)->with('sections', $sections);
+        }
+
+        elseif (auth()->user()->role == 'teacher') {
+          //  dd('djhbd');
+           $school_id = School::find($id)->id;
+           $teacher_id = auth()->user()->teacher->id;
+           $relations = SchoolTeacherRelation::select('school_id','sclass_id', 'section_id')->where([['school_id', '=', $school_id], ['teacher_id', '=', $teacher_id], ['approved', '=', 1]])->distinct()->orderby('sclass_id')->get();
+            $sclasses = Sclass::all();
+           $sections = Section::all();
+           return view('class.schoolClassesList')->with('relations', $relations)->with('school_id', $school_id)->with('sclasses', $sclasses)->with('sections', $sections);
+        // $school_id = School::find($id)->id;
         }
     }
 

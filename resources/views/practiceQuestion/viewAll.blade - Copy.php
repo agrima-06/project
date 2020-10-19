@@ -1,79 +1,62 @@
 
-@extends('layouts.theme2')
+@extends('layouts.theme')
 
 @section('title')
-Practice Questions
+Home
 @endsection
 
-@section('content')
+@section('body')
 
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-  </div>
+<div class="justify-content-center mt-5" style="color: black;margin-bottom: 10%">
+ 
+  @if(Auth::user()->role=="teacher")
 
-@if(Auth::user()->role=="teacher")
-   <div class="row">
-    <div class="col-12 mb-4">
-    <!-- Basic Card Example students list -->
-      <div class="card shadow mb-4 alert alert-info" role="alert" id="teacher-list">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-info">Students list</h6>
-        </div>
-        <div class="card-body">
-          <form method="get" action="{{route('practiceQuestion.index')}}">
-            <div class="form-row align-items-center">
-              <div class="col-sm-2 my-1">
-                <label  class="sr-only" for="sel1">Select list (select one):</label>
-                <select class="form-control" name="class_id" id="sel1" onChange="getSubject(this.value);">
-                  <option>Select Class</option>
-                  @if(isset($relations))
-                   @foreach($relations as $relation)
-                      <option  value="{{$relation->sclass->id}}" @if(isset($action) && ($sclass->id== $relation->sclass->id)) selected @endif 
-                       >Class {{$relation->sclass->class}}</option>
-                    @endforeach
-                  @endif                           
-                </select>
-              </div>
-              <div class="col-sm-3 my-1">
-                <label  class="sr-only" for="subject">Select list (select one):</label>
-                <select class="form-control" name="subject" id="subject" >
-                  @if(isset($action)) 
-                    <option>{{$subject->name}}</option>
-                  @else
-                    <option>Select a Subject</option>
-                  @endif
-                </select>
-              </div>
-              <div class="col-auto my-1">
-                <label  class="sr-only" for="sel1">Select list (select one):</label>
-                <select class="form-control" name="action" id="sel1">        
-                  <option value="1" >Add Questions</option>
-                  <option value="2" @if(isset($action) && $action==2)
-                      selected
-                   @endif>
-                  View/Edit questions uploaded by me</option>
-                  <option value="3" @if(isset($action) && $action==3)
-                    selected
-                  @endif 
-                  >View questions uploaded by others</option>
-                </select>
-              </div>
-              <div class="col-auto my-1">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-          </form>
-        </div>
+  <form method="get" action="{{route('practiceQuestion.index')}}">
+    <div class="form-row align-items-center">
+      <div class="col-sm-2 my-1">
+        <label  class="sr-only" for="sel1">Select list (select one):</label>
+        <select class="form-control" name="class_id" id="sel1" onChange="getSubject(this.value);">
+          <option>Select Class</option>
+          @if(isset($relations))
+           @foreach($relations as $relation)
+              <option  value="{{$relation->sclass->id}}" @if(isset($action) && ($sclass->id== $relation->sclass->id)) selected @endif 
+               >Class {{$relation->sclass->class}}</option>
+            @endforeach
+          @endif                           
+        </select>
       </div>
-    </div>         
-  </div> 
-@endif
+      <div class="col-sm-3 my-1">
+        <label  class="sr-only" for="subject">Select list (select one):</label>
+        <select class="form-control" name="subject" id="subject" >
+          @if(isset($action)) 
+            <option>{{$subject->name}}</option>
+          @else
+            <option>Select a Subject</option>
+          @endif
+        </select>
+      </div>
+      <div class="col-auto my-1">
+        <label  class="sr-only" for="sel1">Select list (select one):</label>
+        <select class="form-control" name="action" id="sel1">        
+          <option value="1" >Add Questions</option>
+          <option value="2" @if(isset($action) && $action==2)
+              selected
+           @endif>
+          View/Edit questions uploaded by me</option>
+          <option value="3" @if(isset($action) && $action==3)
+            selected
+          @endif 
+          >View questions uploaded by others</option>
+        </select>
+      </div>
+      <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
 
 
-  <div class="row">
-    
-    @if(isset($action) && $action == 1)
+@if(isset($action) && $action == 1)
   <form method="post" action="{{route('practiceQuestion.store')}}" id="question" enctype="multipart/form-data" class="mt-5 text-left">
     @csrf
     <div class="row">
@@ -113,6 +96,7 @@ Practice Questions
             <option value="2">Level-2</option>                           
             <option value="3">Level-3</option>                          
           </select>
+      </div>
       </div>
 
       <div class="form-group mt-3">
@@ -184,8 +168,7 @@ Practice Questions
 
   @endif
 
-  </div>
-
+@endif
 
 @if(Auth::user()->role=="student")
 

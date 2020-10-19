@@ -42,8 +42,9 @@ Home
 	  <li class="list-group-item d-flex justify-content-between align-items-center"  style="margin-bottom: 5%;width: 100%">
     
 	  	<span class="badge badge-light badge-pill" style="font-size: 18px;margin-right: 5%">{{$homework->subject->name}}</span>
-	    <span class="badge badge-light badge-pill" style="font-size: 18px;margin-right: 5%">{{$homework->topic}}</span>
-	   
+	    <span class="badge badge-light badge-pill" style="font-size: 18px;margin-right: 5%">{{$homework->topic->topic}}</span>
+	     <span class="badge badge-light badge-pill" style="font-size: 18px;margin-right: 5%">{{$homework->topic->sub_topic}}</span>
+
       <form action="{{route('homework.show',$homework->id)}}" method="get" style="margin-right: 1%">
          <button type="submit" class="btn btn-primary btn-sm mr-2">View</button>
       </form>

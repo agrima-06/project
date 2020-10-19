@@ -24,9 +24,8 @@ class HomeworkController extends Controller
         $classes = Sclass::all();
         if(auth()->user()->role == 'teacher')
         {
-        $homeworks = User::find(auth()->user()->id)->homeworks;
-        //dd($homeworks);
-        return view('homework')->with('homeworks', $homeworks);
+        $teacher = auth()->user()->teacher;
+        return view('homework.teacherHomeworkList')->with('teacher', $teacher);
         }
         if(auth()->user()->role == 'admin')
         {

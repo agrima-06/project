@@ -50,5 +50,31 @@ class Teacher extends Model
         return $SchoolTeacherRelations;
     }
 
+
+    public function isClassTeacher($school_id)
+    {        
+        $classTecher = SchoolTeacherRelation::where([['school_id', '=', $school_id], ['teacher_id', '=', $this->id], ['classteacher', '=', 1], ['approved', '=', 1]])->first();
+        return $classTecher;
+    }
+    
+    public function iteachClasses($school_id)
+    {        
+        $iteachClasses = SchoolTeacherRelation::select('school_id','sclass_id','subject_id','section_id', 'teacher_id')->where([['school_id', '=', $school_id], ['teacher_id', '=', $this->id], ['approved', '=', 1]])->distinct()->get();
+        return $iteachClasses;
+    }
+
+    public function practiceQuesPosted()
+    {        
+        $user_id = $this->user->id;
+        $practiceQuestions = PracticeQuestion::where('user_id', '=' , $user_id)->get();
+        return $practiceQuestions;
+    }
+
+    public function homeworksAssigned()
+    {        
+        $homeworks = homework::where('teacher_id', '=', $this->id)->get();
+        return $homeworks;
+    }
+
     
 }

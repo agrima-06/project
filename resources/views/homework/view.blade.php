@@ -1,5 +1,5 @@
 
-@extends('layouts.theme2')
+@extends('layouts.theme')
 
 @section('title')
 Edit
@@ -31,7 +31,7 @@ Edit
 		    		{{$homework->updated_at}}
 		    	</div>
 		    	<div>
-		    		Assigned By Teacher:- {{$homework->User->name}}
+		    		Assigned By Teacher:- {{$homework->teacher->User->name}}
 		    	</div>
 		    	<div>
 		    		<b class="text-success">Submit Your Homework Below</b>

@@ -18,7 +18,7 @@ class CreatePracticeQuestionsTable extends Migration
             $table->integer('subject_id')->nullable();
             $table->integer('sclass_id')->nullable();
             $table->integer('topic_id')->nullable();
-           // $table->string('sub_topic')->nullable();
+            // $table->string('sub_topic')->nullable();
             $table->longText('question')->unique();
             $table->integer('Level')->nullable();        
             // $table->string('optionA')->nullable();
@@ -32,6 +32,7 @@ class CreatePracticeQuestionsTable extends Migration
             $table->string('file_url')->nullable();
             $table->integer('answer_id');//
             $table->integer('user_id')->nullable();
+            $table->boolean('approved')->default(0);
             $table->timestamps();
         });
     }
