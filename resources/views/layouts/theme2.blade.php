@@ -153,6 +153,8 @@
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+<!--             THIS IS THE ERROR WHY SPEED IS SLOW
+ -->       
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
@@ -307,7 +309,8 @@
               </div>
             </li>
 
-          </ul>
+<!--                     TILL HERE THE ERROR IS DERE 
+ -->          </ul>
 
         </nav>
         <!-- End of Topbar -->

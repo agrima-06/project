@@ -58,4 +58,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Schoolstaff');
     }
+    public function objectivetests()
+    {
+        return $this->hasMany('App\Objectivetest');
+    }
+    public function testresults()
+    {
+        return $this->hasMany('App\Testresult');
+    }
 }

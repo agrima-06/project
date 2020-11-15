@@ -104,8 +104,13 @@ Route::get('school-class-profile/{sId}/{cId}/{secId}', 'ClassController@schoolCl
  
 
 Route::resource('objectivetest', 'ObjectivetestController');
-
-
+Route::get('objectivetest/test/{id}', 'ObjectivetestController@singleTest')->name('single.test');
+Route::get('objectivetest/addquestion/{id}', 'ObjectivetestController@addQuestion')->name('add.question');
+Route::get('objectivetest/updatequestion/{id}', 'ObjectivetestController@updateQuestions')->name('update.question');
+Route::get('objectivetest/addedquestions/{id}', 'ObjectivetestController@addedQuestions')->name('added.questions');
+Route::get('objectivetest/testtaker/{id}', 'ObjectivetestController@testTakers')->name('test.taker');
+Route::get('objectivetest/result/rtr', 'ObjectivetestController@evaluateResult')->name('test.evaluate');
+Route::get('objectivetest/result/rtroo', 'ObjectivetestController@submitAnswer')->name('test.submit.answer');
 
 #TEST ROUTE DELETE THIS 
 

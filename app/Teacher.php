@@ -57,9 +57,10 @@ class Teacher extends Model
         return $classTecher;
     }
     
-    public function iteachClasses($school_id)
-    {        
-        $iteachClasses = SchoolTeacherRelation::select('school_id','sclass_id','subject_id','section_id', 'teacher_id')->where([['school_id', '=', $school_id], ['teacher_id', '=', $this->id], ['approved', '=', 1]])->distinct()->get();
+    public function iteachClasses()
+    {   
+       $school_id = $this->school_id;     
+        $iteachClasses = SchoolTeacherRelation::select('id','school_id','sclass_id','subject_id','section_id', 'teacher_id')->where([['school_id', '=', $school_id], ['teacher_id', '=', $this->id], ['approved', '=', 1]])->get();
         return $iteachClasses;
     }
 

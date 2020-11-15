@@ -15,13 +15,18 @@ class CreateObjectivetestsTable extends Migration
     {
         Schema::create('objectivetests', function (Blueprint $table) {
             $table->id();
-           // $table->integer('subject_id')->nullable();
-           // $table->integer('section_id')->nullable();
-           // $table->integer('topic_id')->nullable();
-           // $table->integer('sclass_id')->nullable();
-//$table->String('Title')->nullable();
-           // $table->boolean('open')->nullable(); //Test is available for all ? if yes your name will be promted
-            $table->json('question');
+            $table->integer('user_id');
+            $table->string('title'); 
+            $table->string('keywords')->nullable(); 
+            $table->string('institute'); 
+            $table->string('exam'); 
+            $table->enum('level', [1,2,3]); //1->Easy, 2-Medium, 3- Hard
+            $table->integer('duration');
+            $table->boolean('public')->defaul(0);
+            //1 is for Shared with my Students I teach, if 1 populate class list in testshared table
+            //2 is for public view
+            $table->boolean('promotion')->defaul(0);//This is only when Public View is set(AUTO ON)       
+            $table->boolean('published')->defaul(0); 
             $table->timestamps();
         });
     }

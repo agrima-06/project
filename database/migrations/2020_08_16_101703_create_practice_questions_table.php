@@ -15,6 +15,9 @@ class CreatePracticeQuestionsTable extends Migration
     {
         Schema::create('practice_questions', function (Blueprint $table) {
             $table->id();
+            $table->integer('exam')->nullable();
+            //Questions for different board shud be seperate in exam category.
+            //Board Can be used for different Streams :- Btech MECH, Computer, 
             $table->integer('subject_id')->nullable();
             $table->integer('sclass_id')->nullable();
             $table->integer('topic_id')->nullable();
