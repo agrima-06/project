@@ -10,6 +10,8 @@ use App\Board;
 use App\Subject;
 use App\Testshared;
 use App\Testquestion;
+use App\Testresult;
+
 use App\SchoolTeacherRelation;
 use Illuminate\Support\Facades\Session;
 
@@ -379,52 +381,213 @@ class ObjectivetestController extends Controller
      // return view('test.testTaker')->with('objectivetest', $objectivetest);
     }
 
-    public function evaluateResult()
+    public function evaluateResult($testresult_id)
     {
+        //THIS WILL BE THE RESULT....
+        $testresult =  Testresult::find($testresult_id);
+        $objectivetest = $testresult->objectivetest;
+        $answered = unserialize($testresult->answer);
+        $subResult31 = [
+            "subjectName" => "English",
+            "right" => '15',
+            "wrong" => '10',
+            "notanswered" => '12'
+        ];
+       // dd($subResult31['right']);
+        //dd($answered['sub31']['17']);
+        //dd($user_answer->testquestions);
+       // return $testresult->answer;
+
         function array_push_assoc($array, $key, $value){
            $array[$key] = $value;
            return $array;
         }
-        $testquestion =  Testquestion::find(31);
-      //  dd($testquestion->question);
-        $correctanswer = [];
-        foreach (json_decode($testquestion->question) as $question) {
-            $practicequestion = PracticeQuestion::where('id',$question)->first();
-            $answer = $practicequestion->answer->correct_option;
-           // dd($practicequestion);
-            $correctanswer = array_push_assoc($correctanswer, $question, $answer);
-        }
-       // dd($correctanswer);
-        $answered = ["14"=>"A", "15"=>"C", "16"=>"D"];
-      //  $correctanswer = ["1"=>"B", "2"=>"A", "3"=>"D", "4"=>"D"];
-        $right = 0;
-        $wrong = 0;
-        $notanswered = 0;
-        foreach ($correctanswer as $key => $value) {
-            if(isset($answered[$key])){
-                if($answered[$key] == $correctanswer[$key]){
-                  //  "answered Correctly";
-                     $right =  $right + 1;
-                }
-                else{
-                   // "answered incorrect";
-                    $wrong = $wrong + 1;
-                }
+        // $objectivetest = $testresult->objectivetest;
+        //dd($objectivetest->testquestions);
+               // $correctanswer = [];
+        $subjectsWithAnswer=[];
+        foreach ($objectivetest->testquestions as $subject) { 
+            $currentSubject = $subject->id.'_sub';
+            //double dollar sign converts string to an variable
+            $$currentSubject =[];
+            //dd($currentSubject);
+            foreach (json_decode($subject->question) as $question) {
+                $practicequestion = PracticeQuestion::where('id',$question)->first();
+                $answer = $practicequestion->answer->correct_option;
+                // dd($practicequestion);
+                $$currentSubject = array_push_assoc($$currentSubject, $question, $answer);
             }
-            else{
-                $notanswered = $notanswered + 1;
-               // "Not answered";
-            }
+           // $subjectsWithAnswer = array_push_assoc($subjectsWithAnswer, 
+            array_push($subjectsWithAnswer, $currentSubject);
+            //dd($$currentSubject);
         }
-        dd('Right = '.$right.' Wrong = '.$wrong.' NotAnswered = '.$notanswered);
+          //  dd($subjectsWithAnswer[0]);
+            $correct = 0;
+            $wrong = 0;
+            $notanswered = 0;
+            $marks = 0;
+            //This vairable will contain array with Id, Subject Name, Correct, Incorrect, Not Answered.
+            //$result_$subjectWithAnswer = 
+
+            function subject_name_id($id_sub){
+                //This function will find the Id and name from the given data
+                $stringBreak = explode('_', $id_sub);
+                $testquestion = Testquestion::find($stringBreak[0]);
+                return $testquestion;
+            }
+
+            //subject_name_id('31_sub');
+            //This will store the name of all the subjects with results.
+            $fullResult = [];
+            foreach ($subjectsWithAnswer as $subjectWithAnswer) {
+                $correct = 0;
+                $wrong = 0;
+                $notanswered = 0;
+                //dd($answered[$subjectWithAnswer]);
+                //dd($$sub);
+                $resultArray = 'result_'.$subjectWithAnswer;
+                $$resultArray = [];
+                $subjectDetails = subject_name_id($subjectWithAnswer);
+                //dd($subjectDetails);
+                foreach ($$subjectWithAnswer as $key => $value) {
+                  //  dd($answered[$subjectWithAnswer][$key]);
+                    if(isset($answered[$subjectWithAnswer][$key])){
+                        if($answered[$subjectWithAnswer][$key] == $$subjectWithAnswer[$key]){
+                          //  "answered Correctly";
+                             $correct =  $correct + 1;
+                        }
+                        else{
+                           // "answered incorrect";
+                            $wrong = $wrong + 1;
+                        }
+                    }
+                    else{
+                        $notanswered = $notanswered + 1;
+                       // "Not answered";
+                    }
+                }
+
+                $marks = ($subjectDetails->marks * $correct) - ($subjectDetails->negativeMarks * $wrong);
+                //This will store id,name,correct,wrong,unaswered, marks in result array
+                $$resultArray =  array_push_assoc($$resultArray, 'id', $subjectDetails->id);
+                $$resultArray =  array_push_assoc($$resultArray, 'subject', $subjectDetails->subject);
+                $$resultArray =  array_push_assoc($$resultArray, 'correct', $correct);
+                $$resultArray =  array_push_assoc($$resultArray, 'wrong', $wrong);
+                $$resultArray =  array_push_assoc($$resultArray, 'notanswered', $notanswered);
+                $$resultArray =  array_push_assoc($$resultArray, 'marks', $marks);
+            //Now Start Matching Subjectwise answers..
+                array_push($fullResult, $$resultArray);
+            }
+          //  dd($fullResult);
+
+            return $fullResult;
+          
+
+
+          //  dd('Right = '.$correct.' Wrong = '.$wrong.' NotAnswered = '.$notanswered);
+
+
+      //     $testquestion =  Testquestion::find(31);
+      //   //  dd($testquestion->question);
+      //   $correctanswer = [];
+      //   foreach (json_decode($testquestion->question) as $question) {
+      //       $practicequestion = PracticeQuestion::where('id',$question)->first();
+      //       $answer = $practicequestion->answer->correct_option;
+      //      // dd($practicequestion);
+      //       $correctanswer = array_push_assoc($correctanswer, $question, $answer);
+      //   }
+      //  // dd($correctanswer);
+      //   $answered = ["14"=>"A", "15"=>"C", "16"=>"D"];
+      // //  $correctanswer = ["1"=>"B", "2"=>"A", "3"=>"D", "4"=>"D"];
+      //   $right = 0;
+      //   $wrong = 0;
+      //   $notanswered = 0;
+
+      //   foreach ($correctanswer as $key => $value) {
+      //       if(isset($answered[$key])){
+      //           if($answered[$key] == $correctanswer[$key]){
+      //             //  "answered Correctly";
+      //                $right =  $right + 1;
+      //           }
+      //           else{
+      //              // "answered incorrect";
+      //               $wrong = $wrong + 1;
+      //           }
+      //       }
+      //       else{
+      //           $notanswered = $notanswered + 1;
+      //          // "Not answered";
+      //       }
+      //   }
+      //   dd('Right = '.$right.' Wrong = '.$wrong.' NotAnswered = '.$notanswered);
     }
 
     public function submitAnswer(Request $request)
-    {
-        $answers = $request->answer;
-       // dd($answers);
-         $testquestion =  Testquestion::find(28);
+    {        
+        $answers = serialize($request->answer);
+        $user_id = $request->user_id;
+        $test_id = $request->test_id;
+    //    dd($answers);
+      //  $testquestion = Testquestion::find(28);
+        //Check if user has already given Exam
+        //$Testresult =  Testresult::where([['user_id', '=', $user_id], ['objectivetest_id', '=', $test_id]])->get();      
+        //dd($Testresult);
+        $Testresult =  Testresult::create([
+            'user_id' => $user_id,
+            'objectivetest_id' =>  $test_id,
+            'answer' =>  $answers,            
+        ]);
 
+         //$fullResult = $this->evaluateResult($Testresult->id);
+         $fullResult = $this->evaluateResult($Testresult->id);
+         
+         $score = 0;
+         foreach ($fullResult as $result) {
+             $score = $score + $result['marks'];
+         }
+         $mode = 'ofline';
+         //Check if the exam is in Live or Ofline Mode
+         //If in Live mode store the max in ofline as well as ofline score will be used to find the Rank and Online Rank will be store defaultly
+         if($mode == 'live'){
+           // $liveScore =$x;
+            $Testresult->update([
+            'liveScore' => $score,
+            'oflineScore' =>  $score,
+            ]);
+         }
+         else{
+            $Testresult->update([
+            'oflineScore' =>  $score,
+            ]);
+         }
+           // $oflineScore = $x; 
+
+         //Calculate the Rank
+        function calculateRank($results, $user_id){
+            $count = 0;
+            foreach ($results as $rank) {
+              $count = $count + 1;
+              if ($rank->user_id == $user_id) {
+                break;
+              }
+            }
+            return $count;
+        }
+       // dd($test_id);
+        $results = Testresult::where('objectivetest_id', $test_id)->orderBy('oflineScore', 'desc')->get();
+       // dd($results);
+        $rank = calculateRank($results, $user_id);
+
+        //Top 200 Ranks
+        $topresults = Testresult::where('objectivetest_id', $test_id)->orderBy('oflineScore', 'desc')->take(200)->get();
+
+        //dd($topresults);
+        //orderBy(..)->take(5)->get()
+
+        
+        return view('test')->with('fullResult', $fullResult)->with('rank', $rank)->with('topresults', $topresults);
+
+        dd(unserialize($Testresult->answer));
 
         $questions = [
         "English" => ["11", "12", "13"],
@@ -439,25 +602,26 @@ class ObjectivetestController extends Controller
         "GK" => ["17"=>"B", "18"=>"B", "19"=>"B"],
         "Reasoning" => ["20"=>"B", "21"=>"B", "22"=>"B"]
         ];
-dd($answers);
+        dd($answers);
         // $a = json_decode($testquestion->question);
         // dd($a[]);
-              //  $answered = ["141002"=>"A", "15"=>"C", "16"=>"D"];
-                dd((unserialize(serialize($answered['GK']))));
-
-
-//dd(json_decode(json_encode($answered))->16);
-
+        //  $answered = ["141002"=>"A", "15"=>"C", "16"=>"D"];
+        dd((unserialize(serialize($answered['GK']))));
+        //dd(json_decode(json_encode($answered))->16);
         $testquestion->update([
-            'question'=>serialize($answered),
-        ]);
-        
+        'question'=>serialize($answered),
+        ]);       
         //);
         //$array = $request->array;
-
-
-
-
         dd($answers);
+    }
+
+    public function deletethisfunction()
+    {
+        $testquestion =  Testquestion::find(16);
+        $question = json_decode($testquestion->question);
+        $practicequestions = PracticeQuestion::whereIn('id',$question[1])->get();
+
+        dd(json_decode($practicequestions));
     }
 }

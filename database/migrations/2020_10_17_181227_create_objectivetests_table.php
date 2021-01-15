@@ -22,6 +22,8 @@ class CreateObjectivetestsTable extends Migration
             $table->string('exam'); 
             $table->enum('level', [1,2,3]); //1->Easy, 2-Medium, 3- Hard
             $table->integer('duration');
+            $table->longText('instruction'); // Typos changed from lognText
+
             $table->boolean('public')->defaul(0);
             //1 is for Shared with my Students I teach, if 1 populate class list in testshared table
             //2 is for public view

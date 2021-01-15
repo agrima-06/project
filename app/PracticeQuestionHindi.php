@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PracticeQuestion extends Model
+class PracticeQuestionHindi extends Model
 {
-	protected $guarded = [
+    use HasFactory;
+
+    protected $guarded = [
 	        'id'        
 	    ];
     public function subject()
@@ -35,12 +38,10 @@ class PracticeQuestion extends Model
         return $this->belongsTo('App\ComprehensiveQuestions');
     }
 
-    public function hversion()
+    public function eversion()
     {
-        return $this->belongsTo('App\PracticeQuestionHindi');
+        return $this->hasOne('App\PracticeQuestion', 'hversion_id');
     }
-
-
     // public function sclass()
     // {
     //     return $this->belongsTo('App\Sclass');

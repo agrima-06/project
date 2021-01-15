@@ -4,16 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePracticeQuestionsTable extends Migration
+class CreatePracticeQuestionHindisTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() 
+    public function up()
     {
-        Schema::create('practice_questions', function (Blueprint $table) {
+        Schema::create('practice_question_hindis', function (Blueprint $table) {
             $table->id();
             $table->integer('exam')->nullable();
             //Questions for different board shud be seperate in exam category.
@@ -21,10 +21,7 @@ class CreatePracticeQuestionsTable extends Migration
             $table->integer('subject_id')->nullable();
             $table->integer('sclass_id')->nullable();
             $table->integer('topic_id')->nullable();
-       //     $table->integer('practice_question_hindi_id')->nullable();
-            $table->integer('hversion_id')->nullable();
-
-
+           // $table->integer('practice_question_hindi_id')->nullable();
             // $table->string('sub_topic')->nullable();
             $table->longText('question')->unique();
             $table->integer('Level')->nullable();        
@@ -55,6 +52,6 @@ class CreatePracticeQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('practice_questions');
+        Schema::dropIfExists('practice_question_hindis');
     }
 }

@@ -24,7 +24,7 @@
 <body id="page-top">
 
   <!-- Page Wrapper -->
-  <div id="wrapper">
+  <div id="wrapper"> 
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-success sidebar sidebar-dark accordion" id="accordionSidebar">

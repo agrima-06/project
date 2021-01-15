@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTestresultsTable extends Migration
+class CreateObjectivetestpromotionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateTestresultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('testresults', function (Blueprint $table) {
+        Schema::create('objectivetestpromotions', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('objectivetest_id');
-            $table->integer('liveScore')->nullable();
-            $table->integer('liveRank')->nullable();
-            $table->integer('oflineScore')->nullable();
-           // $table->integer('currentRank')->nullable();
-            $table->string('answer')->nullable();
-          //  $table->integer('answered')->nullable();
+            $table->string('brandName');
+            $table->string('Address');
+            $table->string('Logo'); //Image URL
+            $table->string('website');
+            $table->string('contactNo');
             $table->timestamps();
+
         });
     }
 
@@ -34,6 +34,6 @@ class CreateTestresultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('testresults');
+        Schema::dropIfExists('objectivetestpromotions');
     }
 }

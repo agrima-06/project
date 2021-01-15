@@ -112,6 +112,9 @@ Route::get('objectivetest/testtaker/{id}', 'ObjectivetestController@testTakers')
 Route::get('objectivetest/result/rtr', 'ObjectivetestController@evaluateResult')->name('test.evaluate');
 Route::get('objectivetest/result/rtroo', 'ObjectivetestController@submitAnswer')->name('test.submit.answer');
 
+//DELETE THIS BELOW
+Route::get('objectivetest/result/test/delete/turn', 'ObjectivetestController@deletethisfunction');
+
 #TEST ROUTE DELETE THIS 
 
 

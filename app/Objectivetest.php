@@ -18,6 +18,11 @@ class Objectivetest extends Model
         return $this->hasMany('App\Testquestion');
     }
 
+    public function testresults()
+    {
+        return $this->hasMany('App\Testresult');
+    }
+
     public function testshareds()
     {
         return $this->hasMany('App\Testshared');
@@ -26,5 +31,10 @@ class Objectivetest extends Model
     public function user()
     {
         return $this->belongsTo('App\user');
+    }
+
+    public function promotions()
+    {
+        return $this->hasOne(Objectivetestpromotion::class);
     }
 }

@@ -9,7 +9,7 @@ class PracticeAnswer extends Model
 	protected $guarded = [
 	        'id'        
 	    ];
-     public function practiceQuestion()
+    public function practiceQuestion()
     {
         return $this->hasOne('App\PracticeQuestion', 'answer_id');
     }

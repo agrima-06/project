@@ -941,27 +941,27 @@ margin-left: -2.5em;
 }
 
 
-.test span.answered {
+.test span.answered, .questionList span.answered {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 42px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
     width: 50px;
-    background-position: -4px -5px;
+    background-position: -4px -3px;
 }
 
-.test span.answered:hover {
+.test span.answered:hover, .questionList span.answered:hover, .test span.answered.selected {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 42px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
@@ -969,13 +969,13 @@ margin-left: -2.5em;
     background-position: -4px -126px;
 }
 
-.test span.not_answered {
+.test span.not_answered, .questionList span.not_answered {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 42px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
@@ -983,13 +983,13 @@ margin-left: -2.5em;
     background-position: -57px -5px;
 }
 
-.test span.not_answered:hover {
+.test span.not_answered:hover, .questionList span.not_answered:hover, .test  span.not_answered.selected {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 42px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
@@ -997,75 +997,75 @@ margin-left: -2.5em;
     background-position: -57px -126px;
 }
 
-.test span.review {
+.test span.review, .questionList span.review {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
      cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 48px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
-    width: 48px;
-    background-position: -108px -2px;
+    width: 50px;
+    background-position: -107px -2px;
 }
 
-.test span.review:hover {
+.test span.review:hover, .questionList span.review:hover, .test span.review.selected {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
      cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 48px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
-    width: 48px;
+    width: 50px;
     background-position: -108px -122px;
 }
 
-.test span.not_visited {
+.test span.not_visited, .questionList span.not_visited {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
      cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 44px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
-    width: 44px;
-    background-position: -159px -3px;
+    width: 50px;
+    background-position: -157px -3px;
     color: #474747;
 }
 
 
-.test span.not_visited:hover {
+.test span.not_visited:hover, .questionList span.not_visited:hover, .test span.not_visited.selected {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
      cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 44px;
+    height: 46px;
     line-height: 42px;
     /* margin: 3px; */
     text-align: center;
-    width: 44px;
-    background-position: -159px -123px;
+    width: 50px;
+    background-position: -157px -122px;
     color: #474747;
 }
 
-.test span.review_marked {
+.test span.review_marked, .questionList span.review_marked {
     background: url(/shapes/images/shapes.png) no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
      cursor: pointer; 
     float: left;
     font-weight: bold;
-    height: 48px;
+    height: 46px;
     /* margin: 3px !important; */
     text-align: center;
-    width: 48px;
+    width: 50px;
     line-height: 42px;
     background-position: -66px -178px;
 }

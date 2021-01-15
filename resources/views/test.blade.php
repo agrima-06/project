@@ -6,7 +6,20 @@ Home
 @endsection
 
 @section('body')
-
+<?php $score = 0; ?>
+@foreach($fullResult as $result)
+Id: {{$result['id']}} <br>
+Subject: {{$result['subject']}} <br>
+Correct: {{$result['correct']}} <br>
+Wrong: {{$result['wrong']}} <br>
+Not Answered: {{$result['notanswered']}} <br>
+Marks Obtained: {{$result['marks']}} <br>
+@php
+$score = $score + $result['marks']
+@endphp
+@endforeach
+Total marks = {{$score}}
+Your Rank = {{$rank}}
 
       <form>
         @csrf

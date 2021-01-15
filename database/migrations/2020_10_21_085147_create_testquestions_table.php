@@ -17,6 +17,8 @@ class CreateTestquestionsTable extends Migration
             $table->id();
             $table->integer('objectivetest_id');
             $table->string('subject');
+            $table->integer('marks'); //Marks for each question
+            $table->integer('negativeMarks');
             $table->integer('noOfQuestions');
             $table->json('question')->nullable();
             $table->timestamps();
